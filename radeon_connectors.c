@@ -1490,18 +1490,32 @@ static enum drm_mode_status radeon_dvi_mode_valid(struct drm_connector *connecto
 	    (rdev->family == CHIP_RV100) &&
 	    (mode->clock > 135000))
 		return MODE_CLOCK_HIGH;
-
 	if (radeon_connector->use_digital && (mode->clock > 165000)) {
 		if ((radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_I) ||
 		    (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_D) ||
-		    (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_B))
+			// hdmimhz may be lower than the maximum supported frequency of monitor
+		    ((radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_B) && !radeon_apply_hdmimhz_to_dvid)){
+
 			return MODE_OK;
+		}
 		else if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
 			/* HDMI 1.3+ supports max clock of 340 Mhz */
-			if (mode->clock > 340000)
+			if (mode->clock > 340000){
 				return MODE_CLOCK_HIGH;
-			else
+			}
+			else{
 				return MODE_OK;
+			}
+				
+		} else if (
+			// Either HDMI port or a HDMI monitor plugged into DVI-D port
+			(radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_A ||
+			(radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_D &&
+			drm_detect_hdmi_monitor(radeon_connector_edid(connector)) && radeon_apply_hdmimhz_to_dvid)) &&
+			radeon_hdmimhz > 0 && (mode->clock <= radeon_hdmimhz * 1000) &&
+			((mode->clock / 10) <= rdev->clock.max_pixel_clock)
+		) {
+			return MODE_OK;		
 		} else {
 			return MODE_CLOCK_HIGH;
 		}

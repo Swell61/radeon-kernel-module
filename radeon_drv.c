@@ -197,6 +197,8 @@ int radeon_bapm = -1;
 int radeon_backlight = -1;
 int radeon_auxch = -1;
 int radeon_mst = 0;
+int radeon_hdmimhz = 0;
+int radeon_apply_hdmimhz_to_dvid = 0;
 int radeon_uvd = 1;
 int radeon_vce = 1;
 
@@ -289,6 +291,12 @@ module_param_named(auxch, radeon_auxch, int, 0444);
 
 MODULE_PARM_DESC(mst, "DisplayPort MST experimental support (1 = enable, 0 = disable)");
 module_param_named(mst, radeon_mst, int, 0444);
+
+MODULE_PARM_DESC(hdmimhz, "Force a maximum HDMI pixel clock (in MHz); try 165/225/297/330 to overclock your TMDS for gaining a higher resolution.");
+module_param_named(hdmimhz, radeon_hdmimhz, int, 0400);
+
+MODULE_PARM_DESC(apply_hdmimhz_to_dvid, "Apply radeon_hdmimhz to DVI-D port (1 = enable, 0 = disable)");
+module_param_named(apply_hdmimhz_to_dvid, radeon_apply_hdmimhz_to_dvid, int, 0400);
 
 MODULE_PARM_DESC(uvd, "uvd enable/disable uvd support (1 = enable, 0 = disable)");
 module_param_named(uvd, radeon_uvd, int, 0444);

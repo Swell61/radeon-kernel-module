@@ -421,7 +421,13 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
 					return false;
 			} else {
 				if (pixel_clock > 165000)
-					return true;
+					if ((connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+					(DRM_MODE_CONNECTOR_DVID && drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
+					radeon_apply_hdmimhz_to_dvid)) &&
+					radeon_hdmimhz > 0)
+						return false;
+					else
+						return true;
 				else
 					return false;
 			}

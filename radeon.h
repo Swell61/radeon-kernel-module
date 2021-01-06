@@ -117,6 +117,8 @@ extern int radeon_bapm;
 extern int radeon_backlight;
 extern int radeon_auxch;
 extern int radeon_mst;
+extern int radeon_hdmimhz;
+extern int radeon_apply_hdmimhz_to_dvid;
 extern int radeon_uvd;
 extern int radeon_vce;
 extern int radeon_si_support;
