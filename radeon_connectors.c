@@ -1492,9 +1492,9 @@ static enum drm_mode_status radeon_dvi_mode_valid(struct drm_connector *connecto
 		return MODE_CLOCK_HIGH;
 	if (radeon_connector->use_digital && (mode->clock > 165000)) {
 		if ((radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_I) ||
-		    (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_D) ||
+		    (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_D && !radeon_apply_hdmimhz_to_dvid) ||
 			// hdmimhz may be lower than the maximum supported frequency of monitor
-		    ((radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_B) && !radeon_apply_hdmimhz_to_dvid)){
+		    (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_B)){
 
 			return MODE_OK;
 		}
