@@ -295,7 +295,7 @@ module_param_named(mst, radeon_mst, int, 0444);
 MODULE_PARM_DESC(hdmimhz, "Force a maximum HDMI pixel clock (in MHz); try 165/225/297/330 to overclock your TMDS for gaining a higher resolution.");
 module_param_named(hdmimhz, radeon_hdmimhz, int, 0400);
 
-MODULE_PARM_DESC(apply_hdmimhz_to_dvid, "Apply radeon_hdmimhz to DVI-D port (1 = enable, 0 = disable)");
+MODULE_PARM_DESC(apply_hdmimhz_to_dvid, "Apply radeon_hdmimhz to DVI-D port (only applies when HDMI monitor is connected to DVI-D port) (1 = enable, 0 = disable)");
 module_param_named(apply_hdmimhz_to_dvid, radeon_apply_hdmimhz_to_dvid, int, 0400);
 
 MODULE_PARM_DESC(uvd, "uvd enable/disable uvd support (1 = enable, 0 = disable)");
